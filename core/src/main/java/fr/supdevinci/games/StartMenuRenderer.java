@@ -152,7 +152,7 @@ public class StartMenuRenderer {
         }
 
         drawCenteredText(titleFont, "ENTREE = Commencer", menuCenterX, 62f, Color.WHITE);
-        drawCenteredText(smallFont, "Deplace-toi avec Fleches, Q/D ou A/D", menuCenterX, 34f, Color.WHITE);
+        drawCenteredText(smallFont, "Deplace-toi avec Fleches, Q/D ou A/D", menuCenterX, 20f, Color.WHITE);
 
         batch.end();
     }
