@@ -162,4 +162,50 @@ class GameSessionTest {
 
         assertEquals(0f, session.getStateTime(), 0.001f);
     }
+
+    @Test
+void addStateTime_withZero_shouldKeepSameValue() {
+    GameManager manager = new GameManager(960f, 540f);
+    GameSession session = new GameSession(manager);
+
+    session.addStateTime(0f);
+
+    assertEquals(0f, session.getStateTime(), 0.001f);
+}
+
+@Test
+void goToPaused_calledTwice_shouldStayPaused() {
+    GameManager manager = new GameManager(960f, 540f);
+    GameSession session = new GameSession(manager);
+
+    session.goToPaused();
+    session.goToPaused();
+
+    assertTrue(session.isPaused());
+    assertEquals(GameState.PAUSED, session.getGameState());
+}
+
+@Test
+void goToVictory_shouldResetStateTimeEvenAfterTimeWasAdded() {
+    GameManager manager = new GameManager(960f, 540f);
+    GameSession session = new GameSession(manager);
+
+    session.addStateTime(12f);
+    session.goToVictory();
+
+    assertTrue(session.isVictory());
+    assertEquals(0f, session.getStateTime(), 0.001f);
+}
+
+@Test
+void restartGame_shouldKeepSelectedCharacter() {
+    GameManager manager = new GameManager(960f, 540f);
+    GameSession session = new GameSession(manager);
+
+    session.selectJeremie();
+    session.restartGame();
+
+    assertEquals("Jeremie", session.getCharacterName());
+    assertEquals(GameConfig.CHARACTER_JEREMIE, session.getSelectedCharacter());
+}
 }

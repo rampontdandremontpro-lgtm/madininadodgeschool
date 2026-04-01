@@ -5,7 +5,7 @@ import fr.supdevinci.games.state.*;
 
 public class GameSession {
 
-    private final GameManager gameManager;
+    private final GameLogic gameManager;
 
     private final GameFlowState startFlowState;
     private final GameFlowState playingFlowState;
@@ -20,7 +20,7 @@ public class GameSession {
     private String characterName;
     private float stateTime;
 
-    public GameSession(GameManager gameManager) {
+    public GameSession(GameLogic gameManager) {
         this.gameManager = gameManager;
 
         this.selectedCharacter = GameConfig.CHARACTER_ALIZEE;
@@ -37,7 +37,7 @@ public class GameSession {
         this.currentFlowState = startFlowState;
     }
 
-    public GameManager getGameManager() {
+    public GameLogic getGameManager() {
         return gameManager;
     }
 

@@ -37,8 +37,14 @@ public class GameAssets {
     private Texture testTexture;
     private Texture giantPenTexture;
 
+    private Texture pommeCanelleTexture;
+    private Texture pateGoyaveTexture;
+    private Texture caresseRareTexture;
+
     private Texture heartFullTexture;
     private Texture heartEmptyTexture;
+
+    private Texture backgroundRevisionTexture;
 
     public void load() {
         batch = new SpriteBatch();
@@ -73,6 +79,12 @@ public class GameAssets {
         heartFullTexture = new Texture("heart_plein.png");
         heartEmptyTexture = new Texture("heart_vide.png");
 
+        pommeCanelleTexture = new Texture("pomme_cannelle.png");
+        pateGoyaveTexture = new Texture("pate_goyave.png");
+        caresseRareTexture = new Texture("caresse_rare.png");
+
+        backgroundRevisionTexture = new Texture("background_revision.png");
+
         setNearestFilter(backgroundMenuTexture);
         setNearestFilter(backgroundCharactersTexture);
         setNearestFilter(backgroundSchoolTexture);
@@ -89,6 +101,12 @@ public class GameAssets {
 
         setNearestFilter(heartFullTexture);
         setNearestFilter(heartEmptyTexture);
+
+        pommeCanelleTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        pateGoyaveTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        caresseRareTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        backgroundRevisionTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
         alizeeRegion = new TextureRegion(characterAlizeeTexture);
         jeremieRegion = new TextureRegion(characterJeremieTexture);
@@ -141,6 +159,22 @@ public class GameAssets {
     public Texture getBackgroundClassroomTexture() {
         return backgroundClassroomTexture;
     }
+
+    public Texture getPommeCanelleTexture() {
+    return pommeCanelleTexture;
+}
+
+public Texture getPateGoyaveTexture() {
+    return pateGoyaveTexture;
+}
+
+public Texture getCaresseRareTexture() {
+    return caresseRareTexture;
+}
+
+public Texture getBackgroundRevisionTexture() {
+    return backgroundRevisionTexture;
+}
 
     public Texture getBackgroundByLevel(int score) {
         if (score < 20) {
@@ -205,5 +239,10 @@ public class GameAssets {
 
         if (heartFullTexture != null) heartFullTexture.dispose();
         if (heartEmptyTexture != null) heartEmptyTexture.dispose();
+
+        if (pommeCanelleTexture != null) pommeCanelleTexture.dispose();
+if (pateGoyaveTexture != null) pateGoyaveTexture.dispose();
+if (caresseRareTexture != null) caresseRareTexture.dispose();
+if (backgroundRevisionTexture != null) backgroundRevisionTexture.dispose();
     }
 }

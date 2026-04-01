@@ -13,6 +13,9 @@ import fr.supdevinci.games.core.GameManager;
 import fr.supdevinci.games.core.GameSession;
 import fr.supdevinci.games.render.GameplayRenderer;
 import fr.supdevinci.games.render.StartMenuRenderer;
+import fr.supdevinci.games.core.GameLogic;
+import fr.supdevinci.games.core.GameLogic;
+import fr.supdevinci.games.decorator.RevisionGameLogicDecorator;
 
 public class Main extends ApplicationAdapter {
 
@@ -36,7 +39,10 @@ public class Main extends ApplicationAdapter {
         assets = new GameAssets();
         assets.load();
 
-        session = new GameSession(new GameManager(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT));
+        GameLogic gameManager = new GameManager(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
+        gameManager = new RevisionGameLogicDecorator(gameManager);
+        session = new GameSession(gameManager);
+
         controller = new GameController(session);
         startMenuRenderer = new StartMenuRenderer(assets, session);
         gameplayRenderer = new GameplayRenderer(assets, session);

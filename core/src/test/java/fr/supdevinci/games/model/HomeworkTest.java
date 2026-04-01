@@ -37,4 +37,20 @@ class HomeworkTest {
 
         assertEquals(1, hw.getDamage());
     }
+
+    @Test
+void update_withZeroDelta_shouldNotMoveHomework() {
+    Homework hw = new Homework(100f, 300f, 50f, 60f, 200f, Homework.HomeworkType.COPY);
+
+    hw.update(0f);
+
+    assertEquals(300f, hw.getY(), 0.001f);
+}
+
+@Test
+void isOutOfScreen_shouldBeFalse_whenHomeworkIsExactlyAtZero() {
+    Homework hw = new Homework(100f, 0f, 50f, 60f, 200f, Homework.HomeworkType.COPY);
+
+    assertFalse(hw.isOutOfScreen());
+}
 }

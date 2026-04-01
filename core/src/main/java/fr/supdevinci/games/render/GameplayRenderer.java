@@ -15,6 +15,7 @@ import fr.supdevinci.games.model.Homework;
 import fr.supdevinci.games.model.Player;
 import fr.supdevinci.games.model.Homework.HomeworkType;
 import fr.supdevinci.games.model.Player.Direction;
+import fr.supdevinci.games.core.GameLogic;
 
 public class GameplayRenderer {
 
@@ -44,33 +45,42 @@ public class GameplayRenderer {
     }
 
     private void drawBackground() {
-        SpriteBatch batch = assets.getBatch();
-        GameManager gm = session.getGameManager();
+    SpriteBatch batch = assets.getBatch();
+    GameLogic gm = session.getGameManager();
 
-        Texture background = assets.getBackgroundByLevel(gm.getCurrentScore());
+    Texture background;
 
-        batch.begin();
-        batch.setColor(Color.WHITE);
-        batch.draw(background, 0, 0, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
+    if (gm.isRevisionMode()) {
+        background = assets.getBackgroundRevisionTexture();
+    } else {
+        int elapsedTime = gm.getCurrentScore();
 
-        if (session.isPlaying()) {
-            batch.setColor(0f, 0f, 0f, 0.12f);
-            batch.draw(background, 0, 0, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
+        if (elapsedTime < 30) {
+            background = assets.getBackgroundSchoolTexture();     
+        } else if (elapsedTime < 70) {
+            background = assets.getBackgroundTerrainTexture();     
+        } else {
+            background = assets.getBackgroundClassroomTexture();  
         }
-
-        if (gm.getCurrentScore() >= 40) {
-            float alpha = 0.05f + 0.03f * (float) Math.sin(session.getStateTime() * 2.8f);
-            batch.setColor(0f, 0f, 0f, alpha);
-            batch.draw(background, 0, 0, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
-        }
-
-        batch.setColor(Color.WHITE);
-        batch.end();
     }
+
+    batch.begin();
+    batch.setColor(Color.WHITE);
+    batch.draw(background, 0, 0, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
+
+    if (session.isPlaying()) {
+        float pulse = 0.03f + 0.02f * (float) Math.sin(session.getStateTime() * 2.2f);
+        batch.setColor(0f, 0f, 0f, pulse);
+        batch.draw(background, 0, 0, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
+    }
+
+    batch.setColor(Color.WHITE);
+    batch.end();
+}
 
     private void drawObjects() {
         SpriteBatch batch = assets.getBatch();
-        GameManager gm = session.getGameManager();
+        GameLogic gm = session.getGameManager();
         Player player = gm.getPlayer();
 
         batch.begin();
@@ -86,17 +96,17 @@ public class GameplayRenderer {
 
     private void drawOverlays() {
         ShapeRenderer shape = assets.getShapeRenderer();
-        GameManager gm = session.getGameManager();
+        GameLogic gm = session.getGameManager();
 
         shape.begin(ShapeRenderer.ShapeType.Filled);
 
         if (session.isPlaying() || session.isPaused()) {
-            drawPanel(shape, 8f, 405f, 355f, 122f);
-            drawPanel(shape, 8f, 350f, 355f, 34f);
+            drawPanel(shape, 8f, 425f, 355f, 105f);
+            drawPanel(shape, 8f, 370f, 355f, 34f);
             drawPanel(shape, 695f, 425f, 255f, 105f);
             drawPanel(shape, 8f, 10f, 230f, 30f);
 
-            drawProgressBarBackground(shape, 13f, 358f, 345f, 16f);
+            drawProgressBarBackground(shape, 13f, 380f, 345f, 16f);
             drawDifficultyBarBackground(shape, 725f, 435f, 185f, 10f);
         }
 
@@ -124,7 +134,7 @@ public class GameplayRenderer {
         shape.end();
 
         if (session.isPlaying() || session.isPaused()) {
-            drawProgressBarFill(15f, 360f, 340f, 12f);
+            drawProgressBarFill(15f, 380f, 340f, 12f);
             drawDifficultyBarFill(727f, 436f, 181f, 8f);
         }
     }
@@ -283,64 +293,80 @@ public class GameplayRenderer {
     }
 
     private void drawHomeworkTexture(SpriteBatch batch, Homework hw) {
-        Texture texture = getHomeworkTexture(hw);
+    Texture texture = getHomeworkTexture(hw);
 
-        float scaleX = 1f;
-        float scaleY = 1f;
+    float scaleX = 1f;
+    float scaleY = 1f;
 
-        switch (hw.getType()) {
-            case COPY:
-                scaleX = 2.15f;
-                scaleY = 1.95f;
-                break;
+    switch (hw.getType()) {
+        case COPY:
+            scaleX = 2.0f;
+            scaleY = 2.0f;
+            break;
 
-            case NOTEBOOK:
-                scaleX = 1.95f;
-                scaleY = 1.95f;
-                break;
+        case NOTEBOOK:
+            scaleX = 1.75f;
+            scaleY = 1.75f;
+            break;
 
-            case TEST:
-                scaleX = 2.35f;
-                scaleY = 1.95f;
-                break;
+        case TEST:
+            scaleX = 2.0f;
+            scaleY = 2.0f;
+            break;
 
-            case GIANT_PEN:
-                scaleX = 4.25f;
-                scaleY = 1.65f;
-                break;
-        }
+        case GIANT_PEN:
+            scaleX = 3f;
+            scaleY = 1.75f;
+            break;
 
-        if (session.getGameManager().getCurrentScore() >= 40 && hw.getType() == Homework.HomeworkType.TEST) {
-            scaleX += 0.15f;
-            scaleY += 0.10f;
-        }
+        case POMME_CANNELLE:
+            scaleX = 1.55f;
+            scaleY = 1.55f;
+            break;
 
-        float drawWidth = hw.getWidth() * scaleX;
-        float drawHeight = hw.getHeight() * scaleY;
-        float drawX = hw.getX() - (drawWidth - hw.getWidth()) / 2f;
-        float drawY = hw.getY() - (drawHeight - hw.getHeight()) / 2f;
+        case PATE_GOYAVE:
+            scaleX = 1.55f;
+            scaleY = 1.40f;
+            break;
 
-        batch.setColor(Color.WHITE);
-        batch.draw(texture, drawX, drawY, drawWidth, drawHeight);
+        case CARESSE_RARE:
+            scaleX = 1.45f;
+            scaleY = 1.95f;
+            break;
     }
+
+    float drawWidth = hw.getWidth() * scaleX;
+    float drawHeight = hw.getHeight() * scaleY;
+    float drawX = hw.getX() - (drawWidth - hw.getWidth()) / 2f;
+    float drawY = hw.getY() - (drawHeight - hw.getHeight()) / 2f;
+
+    batch.setColor(Color.WHITE);
+    batch.draw(texture, drawX, drawY, drawWidth, drawHeight);
+}
 
     private Texture getHomeworkTexture(Homework hw) {
-        switch (hw.getType()) {
-            case NOTEBOOK:
-                return assets.getNotebookTexture();
-            case TEST:
-                return assets.getTestTexture();
-            case GIANT_PEN:
-                return assets.getGiantPenTexture();
-            case COPY:
-            default:
-                return assets.getCopyTexture();
-        }
+    switch (hw.getType()) {
+        case NOTEBOOK:
+            return assets.getNotebookTexture();
+        case TEST:
+            return assets.getTestTexture();
+        case GIANT_PEN:
+            return assets.getGiantPenTexture();
+        case POMME_CANNELLE:
+            return assets.getPommeCanelleTexture();
+        case PATE_GOYAVE:
+            return assets.getPateGoyaveTexture();
+        case CARESSE_RARE:
+            return assets.getCaresseRareTexture();
+        case COPY:
+        default:
+            return assets.getCopyTexture();
     }
+}
 
     private void drawTexts() {
         SpriteBatch batch = assets.getBatch();
-        GameManager gm = session.getGameManager();
+        GameLogic gm = session.getGameManager();
 
         int currentScore = gm.getCurrentScore();
         int bestScore = gm.getBestScore();
@@ -356,7 +382,7 @@ public class GameplayRenderer {
                 drawShadowedText(
                     assets.getTextFont(),
                     "ATTENTION : DERNIERE VIE",
-                    364f,
+                    380f,
                     520f,
                     TEXT_ALERT
                 );
@@ -403,45 +429,45 @@ public class GameplayRenderer {
     }
 
     private void drawHudTexts(int currentScore, int bestScore) {
-        drawShadowedText(assets.getTextFont(), "Personnage : " + session.getCharacterName(), 22f, 520f, TEXT_WHITE);
-        drawShadowedText(assets.getTextFont(), "Score : " + currentScore, 22f, 490f, TEXT_WHITE);
-        drawShadowedText(assets.getTextFont(), "Meilleur score : " + bestScore, 22f, 460f, TEXT_WHITE);
-        drawShadowedText(
-            assets.getTextFont(),
-            "Objectif : " + session.getGameManager().getTargetScore(),
-            22f,
-            430f,
-            TEXT_WHITE
-        );
+    drawShadowedText(assets.getTextFont(), "Personnage : " + session.getCharacterName(), 22f, 520f, TEXT_WHITE);
+    drawShadowedText(assets.getTextFont(), "Score : " + currentScore + "s", 22f, 490f, TEXT_WHITE);
+    drawShadowedText(assets.getTextFont(), "Meilleur score : " + bestScore + "s", 22f, 460f, TEXT_WHITE);
 
-        drawShadowedText(
+    drawShadowedText(
             assets.getTextFont(),
-            "Niveau : " + getSchoolLevelLabel(currentScore),
+            "Niveau : " + session.getGameManager().getDifficultyLabel(),
             722f,
             520f,
             TEXT_GOLD
-        );
+    );
 
-        drawShadowedText(assets.getSmallFont(), "Vies", 722f, 500f, TEXT_WHITE);
-        drawShadowedText(assets.getSmallFont(), "Pression scolaire", 722f, 465f, TEXT_SOFT);
-        drawShadowedText(assets.getTextFont(), "P = Pause | ESC = Menu", 20f, 32f, TEXT_GOLD);
-    }
+    drawShadowedText(assets.getSmallFont(), "Vies", 722f, 500f, TEXT_WHITE);
+
+    String intensityLabel = session.getGameManager().isRevisionMode()
+            ? "Revision : " + (int) Math.ceil(session.getGameManager().getRevisionModeTimer()) + "s"
+            : "Temps : " + currentScore + "s / " + session.getGameManager().getTargetScore() + "s";
+
+    drawShadowedText(assets.getSmallFont(), intensityLabel, 722f, 465f, TEXT_SOFT);
+    drawShadowedText(assets.getTextFont(), "P = Pause | ESC = Menu", 20f, 32f, TEXT_GOLD);
+}
 
     private void drawHearts(int lives) {
-        SpriteBatch batch = assets.getBatch();
-        Texture heartFull = assets.getHeartFullTexture();
-        Texture heartEmpty = assets.getHeartEmptyTexture();
+    SpriteBatch batch = assets.getBatch();
+    Texture heartFull = assets.getHeartFullTexture();
+    Texture heartEmpty = assets.getHeartEmptyTexture();
 
-        float startX = 724f;
-        float y = 460f;
-        float size = 30f;
-        float spacing = 14f;
+    int maxLives = session.getGameManager().getMaxLives();
 
-        for (int i = 0; i < 3; i++) {
-            Texture texture = i < lives ? heartFull : heartEmpty;
-            batch.draw(texture, startX + i * (size + spacing), y, size, size);
-        }
+    float startX = 724f;
+    float y = 468f;
+    float size = 20f;
+    float spacing = 12f;
+
+    for (int i = 0; i < maxLives; i++) {
+        Texture texture = i < lives ? heartFull : heartEmpty;
+        batch.draw(texture, startX + i * (size + spacing), y, size, size);
     }
+}
 
     private void drawCenteredTransitionText(String message) {
         if (message == null || message.isEmpty()) {
