@@ -1,7 +1,9 @@
-package fr.supdevinci.games.core;
+package fr.supdevinci.games.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+
+import fr.supdevinci.games.core.GameSession;
 
 public class GameController {
 

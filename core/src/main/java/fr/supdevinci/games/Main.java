@@ -8,11 +8,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import fr.supdevinci.games.assets.GameAssets;
 import fr.supdevinci.games.config.GameConfig;
-import fr.supdevinci.games.core.GameController;
+import fr.supdevinci.games.controller.GameController;
 import fr.supdevinci.games.core.GameManager;
 import fr.supdevinci.games.core.GameSession;
-import fr.supdevinci.games.render.GameplayRenderer;
-import fr.supdevinci.games.render.StartMenuRenderer;
+import fr.supdevinci.games.render.gameplay.GameplayRenderer;
+import fr.supdevinci.games.render.startmenu.StartMenuRenderer;
 import fr.supdevinci.games.core.GameLogic;
 import fr.supdevinci.games.core.GameLogic;
 import fr.supdevinci.games.decorator.RevisionGameLogicDecorator;

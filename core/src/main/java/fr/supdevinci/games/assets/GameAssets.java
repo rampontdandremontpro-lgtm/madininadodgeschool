@@ -7,8 +7,15 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import fr.supdevinci.games.model.Homework;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 public class GameAssets {
+
+    private final Map<BackgroundAsset, Texture> backgrounds = new EnumMap<>(BackgroundAsset.class);
+    private final Map<Homework.HomeworkType, Texture> homeworkTextures = new EnumMap<>(Homework.HomeworkType.class);
 
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
@@ -19,32 +26,13 @@ public class GameAssets {
 
     private GlyphLayout glyphLayout;
 
-    private Texture backgroundMenuTexture;
-    private Texture backgroundCharactersTexture;
-
-    private Texture backgroundSchoolTexture;
-    private Texture backgroundTerrainTexture;
-    private Texture backgroundClassroomTexture;
-
     private Texture characterAlizeeTexture;
     private Texture characterJeremieTexture;
-
-    private TextureRegion alizeeRegion;
-    private TextureRegion jeremieRegion;
-
-    private Texture copyTexture;
-    private Texture notebookTexture;
-    private Texture testTexture;
-    private Texture giantPenTexture;
-
-    private Texture pommeCanelleTexture;
-    private Texture pateGoyaveTexture;
-    private Texture caresseRareTexture;
-
     private Texture heartFullTexture;
     private Texture heartEmptyTexture;
 
-    private Texture backgroundRevisionTexture;
+    private TextureRegion alizeeRegion;
+    private TextureRegion jeremieRegion;
 
     public void load() {
         batch = new SpriteBatch();
@@ -61,59 +49,45 @@ public class GameAssets {
 
         glyphLayout = new GlyphLayout();
 
-        backgroundMenuTexture = new Texture("background_menu.png");
-        backgroundCharactersTexture = new Texture("background_characters.png");
+        loadBackgrounds();
+        loadCharacters();
+        loadHomeworkTextures();
+        loadHeartTextures();
+    }
 
-        backgroundSchoolTexture = new Texture("background_school.png");
-        backgroundTerrainTexture = new Texture("background_terrain.png");
-        backgroundClassroomTexture = new Texture("background_classroom.png");
+    private void loadBackgrounds() {
+        for (BackgroundAsset asset : BackgroundAsset.values()) {
+            backgrounds.put(asset, loadTexture(asset.getFileName()));
+        }
+    }
 
-        characterAlizeeTexture = new Texture("characterAlizee.png");
-        characterJeremieTexture = new Texture("characterJeremie.png");
-
-        copyTexture = new Texture("copy.png");
-        notebookTexture = new Texture("notebook.png");
-        testTexture = new Texture("test.png");
-        giantPenTexture = new Texture("giantPen.png");
-
-        heartFullTexture = new Texture("heart_plein.png");
-        heartEmptyTexture = new Texture("heart_vide.png");
-
-        pommeCanelleTexture = new Texture("pomme_cannelle.png");
-        pateGoyaveTexture = new Texture("pate_goyave.png");
-        caresseRareTexture = new Texture("caresse_rare.png");
-
-        backgroundRevisionTexture = new Texture("background_revision.png");
-
-        setNearestFilter(backgroundMenuTexture);
-        setNearestFilter(backgroundCharactersTexture);
-        setNearestFilter(backgroundSchoolTexture);
-        setNearestFilter(backgroundTerrainTexture);
-        setNearestFilter(backgroundClassroomTexture);
-
-        setNearestFilter(characterAlizeeTexture);
-        setNearestFilter(characterJeremieTexture);
-
-        setNearestFilter(copyTexture);
-        setNearestFilter(notebookTexture);
-        setNearestFilter(testTexture);
-        setNearestFilter(giantPenTexture);
-
-        setNearestFilter(heartFullTexture);
-        setNearestFilter(heartEmptyTexture);
-
-        pommeCanelleTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        pateGoyaveTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        caresseRareTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-
-        backgroundRevisionTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+    private void loadCharacters() {
+        characterAlizeeTexture = loadTexture("characterAlizee.png");
+        characterJeremieTexture = loadTexture("characterJeremie.png");
 
         alizeeRegion = new TextureRegion(characterAlizeeTexture);
         jeremieRegion = new TextureRegion(characterJeremieTexture);
     }
 
-    private void setNearestFilter(Texture texture) {
+    private void loadHomeworkTextures() {
+        homeworkTextures.put(Homework.HomeworkType.COPY, loadTexture("copy.png"));
+        homeworkTextures.put(Homework.HomeworkType.NOTEBOOK, loadTexture("notebook.png"));
+        homeworkTextures.put(Homework.HomeworkType.TEST, loadTexture("test.png"));
+        homeworkTextures.put(Homework.HomeworkType.GIANT_PEN, loadTexture("giantPen.png"));
+        homeworkTextures.put(Homework.HomeworkType.POMME_CANNELLE, loadTexture("pomme_cannelle.png"));
+        homeworkTextures.put(Homework.HomeworkType.PATE_GOYAVE, loadTexture("pate_goyave.png"));
+        homeworkTextures.put(Homework.HomeworkType.CARESSE_RARE, loadTexture("caresse_rare.png"));
+    }
+
+    private void loadHeartTextures() {
+        heartFullTexture = loadTexture("heart_plein.png");
+        heartEmptyTexture = loadTexture("heart_vide.png");
+    }
+
+    private Texture loadTexture(String fileName) {
+        Texture texture = new Texture(fileName);
         texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        return texture;
     }
 
     public SpriteBatch getBatch() {
@@ -140,70 +114,16 @@ public class GameAssets {
         return glyphLayout;
     }
 
-    public Texture getBackgroundMenuTexture() {
-        return backgroundMenuTexture;
+    public Texture getBackground(BackgroundAsset asset) {
+        return backgrounds.get(asset);
     }
 
-    public Texture getBackgroundCharactersTexture() {
-        return backgroundCharactersTexture;
-    }
-
-    public Texture getBackgroundSchoolTexture() {
-        return backgroundSchoolTexture;
-    }
-
-    public Texture getBackgroundTerrainTexture() {
-        return backgroundTerrainTexture;
-    }
-
-    public Texture getBackgroundClassroomTexture() {
-        return backgroundClassroomTexture;
-    }
-
-    public Texture getPommeCanelleTexture() {
-    return pommeCanelleTexture;
-}
-
-public Texture getPateGoyaveTexture() {
-    return pateGoyaveTexture;
-}
-
-public Texture getCaresseRareTexture() {
-    return caresseRareTexture;
-}
-
-public Texture getBackgroundRevisionTexture() {
-    return backgroundRevisionTexture;
-}
-
-    public Texture getBackgroundByLevel(int score) {
-        if (score < 20) {
-            return backgroundSchoolTexture;
-        } else if (score < 40) {
-            return backgroundTerrainTexture;
-        } else {
-            return backgroundClassroomTexture;
-        }
+    public Texture getHomeworkTexture(Homework.HomeworkType type) {
+        return homeworkTextures.get(type);
     }
 
     public TextureRegion getCharacterRegion(int selectedCharacter) {
         return selectedCharacter == 1 ? alizeeRegion : jeremieRegion;
-    }
-
-    public Texture getCopyTexture() {
-        return copyTexture;
-    }
-
-    public Texture getNotebookTexture() {
-        return notebookTexture;
-    }
-
-    public Texture getTestTexture() {
-        return testTexture;
-    }
-
-    public Texture getGiantPenTexture() {
-        return giantPenTexture;
     }
 
     public Texture getHeartFullTexture() {
@@ -214,6 +134,58 @@ public Texture getBackgroundRevisionTexture() {
         return heartEmptyTexture;
     }
 
+    public Texture getBackgroundMenuTexture() {
+        return getBackground(BackgroundAsset.MENU);
+    }
+
+    public Texture getBackgroundCharactersTexture() {
+        return getBackground(BackgroundAsset.CHARACTERS);
+    }
+
+    public Texture getBackgroundSchoolTexture() {
+        return getBackground(BackgroundAsset.SCHOOL);
+    }
+
+    public Texture getBackgroundTerrainTexture() {
+        return getBackground(BackgroundAsset.TERRAIN);
+    }
+
+    public Texture getBackgroundClassroomTexture() {
+        return getBackground(BackgroundAsset.CLASSROOM);
+    }
+
+    public Texture getBackgroundRevisionTexture() {
+        return getBackground(BackgroundAsset.REVISION);
+    }
+
+    public Texture getCopyTexture() {
+        return getHomeworkTexture(Homework.HomeworkType.COPY);
+    }
+
+    public Texture getNotebookTexture() {
+        return getHomeworkTexture(Homework.HomeworkType.NOTEBOOK);
+    }
+
+    public Texture getTestTexture() {
+        return getHomeworkTexture(Homework.HomeworkType.TEST);
+    }
+
+    public Texture getGiantPenTexture() {
+        return getHomeworkTexture(Homework.HomeworkType.GIANT_PEN);
+    }
+
+    public Texture getPommeCanelleTexture() {
+        return getHomeworkTexture(Homework.HomeworkType.POMME_CANNELLE);
+    }
+
+    public Texture getPateGoyaveTexture() {
+        return getHomeworkTexture(Homework.HomeworkType.PATE_GOYAVE);
+    }
+
+    public Texture getCaresseRareTexture() {
+        return getHomeworkTexture(Homework.HomeworkType.CARESSE_RARE);
+    }
+
     public void dispose() {
         if (batch != null) batch.dispose();
         if (shapeRenderer != null) shapeRenderer.dispose();
@@ -222,27 +194,18 @@ public Texture getBackgroundRevisionTexture() {
         if (textFont != null) textFont.dispose();
         if (smallFont != null) smallFont.dispose();
 
-        if (backgroundMenuTexture != null) backgroundMenuTexture.dispose();
-        if (backgroundCharactersTexture != null) backgroundCharactersTexture.dispose();
+        for (Texture texture : backgrounds.values()) {
+            if (texture != null) texture.dispose();
+        }
 
-        if (backgroundSchoolTexture != null) backgroundSchoolTexture.dispose();
-        if (backgroundTerrainTexture != null) backgroundTerrainTexture.dispose();
-        if (backgroundClassroomTexture != null) backgroundClassroomTexture.dispose();
+        for (Texture texture : homeworkTextures.values()) {
+            if (texture != null) texture.dispose();
+        }
 
         if (characterAlizeeTexture != null) characterAlizeeTexture.dispose();
         if (characterJeremieTexture != null) characterJeremieTexture.dispose();
 
-        if (copyTexture != null) copyTexture.dispose();
-        if (notebookTexture != null) notebookTexture.dispose();
-        if (testTexture != null) testTexture.dispose();
-        if (giantPenTexture != null) giantPenTexture.dispose();
-
         if (heartFullTexture != null) heartFullTexture.dispose();
         if (heartEmptyTexture != null) heartEmptyTexture.dispose();
-
-        if (pommeCanelleTexture != null) pommeCanelleTexture.dispose();
-if (pateGoyaveTexture != null) pateGoyaveTexture.dispose();
-if (caresseRareTexture != null) caresseRareTexture.dispose();
-if (backgroundRevisionTexture != null) backgroundRevisionTexture.dispose();
     }
 }
