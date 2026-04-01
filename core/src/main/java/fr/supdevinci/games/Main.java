@@ -6,6 +6,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import fr.supdevinci.games.assets.GameAssets;
+import fr.supdevinci.games.config.GameConfig;
+import fr.supdevinci.games.core.GameController;
+import fr.supdevinci.games.core.GameManager;
+import fr.supdevinci.games.core.GameSession;
+import fr.supdevinci.games.render.GameplayRenderer;
+import fr.supdevinci.games.render.StartMenuRenderer;
+
 public class Main extends ApplicationAdapter {
 
     private OrthographicCamera camera;

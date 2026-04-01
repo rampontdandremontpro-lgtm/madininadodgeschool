@@ -1,4 +1,4 @@
-package fr.supdevinci.games;
+package fr.supdevinci.games.assets;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -19,47 +19,48 @@ public class GameAssets {
 
     private GlyphLayout glyphLayout;
 
-    private Texture backgroundSchoolTexture;
     private Texture backgroundMenuTexture;
     private Texture backgroundCharactersTexture;
 
+    private Texture backgroundSchoolTexture;
+    private Texture backgroundTerrainTexture;
+    private Texture backgroundClassroomTexture;
+
     private Texture characterAlizeeTexture;
     private Texture characterJeremieTexture;
+
+    private TextureRegion alizeeRegion;
+    private TextureRegion jeremieRegion;
 
     private Texture copyTexture;
     private Texture notebookTexture;
     private Texture testTexture;
     private Texture giantPenTexture;
+
     private Texture heartFullTexture;
     private Texture heartEmptyTexture;
-
-    private TextureRegion alizeeRegion;
-    private TextureRegion jeremieRegion;
 
     public void load() {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        glyphLayout = new GlyphLayout();
 
-        createFonts();
-        loadTextures();
-    }
-
-    private void createFonts() {
         titleFont = new BitmapFont();
-        titleFont.getData().setScale(2.1f);
+        titleFont.getData().setScale(2.0f);
 
         textFont = new BitmapFont();
-        textFont.getData().setScale(1.20f);
+        textFont.getData().setScale(1.15f);
 
         smallFont = new BitmapFont();
-        smallFont.getData().setScale(1.00f);
-    }
+        smallFont.getData().setScale(0.9f);
 
-    private void loadTextures() {
-        backgroundSchoolTexture = new Texture("background_school.png");
+        glyphLayout = new GlyphLayout();
+
         backgroundMenuTexture = new Texture("background_menu.png");
         backgroundCharactersTexture = new Texture("background_characters.png");
+
+        backgroundSchoolTexture = new Texture("background_school.png");
+        backgroundTerrainTexture = new Texture("background_terrain.png");
+        backgroundClassroomTexture = new Texture("background_classroom.png");
 
         characterAlizeeTexture = new Texture("characterAlizee.png");
         characterJeremieTexture = new Texture("characterJeremie.png");
@@ -68,25 +69,33 @@ public class GameAssets {
         notebookTexture = new Texture("notebook.png");
         testTexture = new Texture("test.png");
         giantPenTexture = new Texture("giantPen.png");
+
         heartFullTexture = new Texture("heart_plein.png");
         heartEmptyTexture = new Texture("heart_vide.png");
 
-        backgroundSchoolTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        backgroundMenuTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        backgroundCharactersTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        setNearestFilter(backgroundMenuTexture);
+        setNearestFilter(backgroundCharactersTexture);
+        setNearestFilter(backgroundSchoolTexture);
+        setNearestFilter(backgroundTerrainTexture);
+        setNearestFilter(backgroundClassroomTexture);
 
-        characterAlizeeTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        characterJeremieTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        setNearestFilter(characterAlizeeTexture);
+        setNearestFilter(characterJeremieTexture);
 
-        copyTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        notebookTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        testTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        giantPenTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        heartFullTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        heartEmptyTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        setNearestFilter(copyTexture);
+        setNearestFilter(notebookTexture);
+        setNearestFilter(testTexture);
+        setNearestFilter(giantPenTexture);
+
+        setNearestFilter(heartFullTexture);
+        setNearestFilter(heartEmptyTexture);
 
         alizeeRegion = new TextureRegion(characterAlizeeTexture);
         jeremieRegion = new TextureRegion(characterJeremieTexture);
+    }
+
+    private void setNearestFilter(Texture texture) {
+        texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
     }
 
     public SpriteBatch getBatch() {
@@ -113,16 +122,38 @@ public class GameAssets {
         return glyphLayout;
     }
 
-    public Texture getBackgroundSchoolTexture() {
-        return backgroundSchoolTexture;
-    }
-
     public Texture getBackgroundMenuTexture() {
         return backgroundMenuTexture;
     }
 
     public Texture getBackgroundCharactersTexture() {
         return backgroundCharactersTexture;
+    }
+
+    public Texture getBackgroundSchoolTexture() {
+        return backgroundSchoolTexture;
+    }
+
+    public Texture getBackgroundTerrainTexture() {
+        return backgroundTerrainTexture;
+    }
+
+    public Texture getBackgroundClassroomTexture() {
+        return backgroundClassroomTexture;
+    }
+
+    public Texture getBackgroundByLevel(int score) {
+        if (score < 20) {
+            return backgroundSchoolTexture;
+        } else if (score < 40) {
+            return backgroundTerrainTexture;
+        } else {
+            return backgroundClassroomTexture;
+        }
+    }
+
+    public TextureRegion getCharacterRegion(int selectedCharacter) {
+        return selectedCharacter == 1 ? alizeeRegion : jeremieRegion;
     }
 
     public Texture getCopyTexture() {
@@ -149,20 +180,20 @@ public class GameAssets {
         return heartEmptyTexture;
     }
 
-    public TextureRegion getCharacterRegion(int characterId) {
-        return characterId == GameConfig.CHARACTER_ALIZEE ? alizeeRegion : jeremieRegion;
-    }
-
     public void dispose() {
-        batch.dispose();
-        shapeRenderer.dispose();
-        titleFont.dispose();
-        textFont.dispose();
-        smallFont.dispose();
+        if (batch != null) batch.dispose();
+        if (shapeRenderer != null) shapeRenderer.dispose();
 
-        if (backgroundSchoolTexture != null) backgroundSchoolTexture.dispose();
+        if (titleFont != null) titleFont.dispose();
+        if (textFont != null) textFont.dispose();
+        if (smallFont != null) smallFont.dispose();
+
         if (backgroundMenuTexture != null) backgroundMenuTexture.dispose();
         if (backgroundCharactersTexture != null) backgroundCharactersTexture.dispose();
+
+        if (backgroundSchoolTexture != null) backgroundSchoolTexture.dispose();
+        if (backgroundTerrainTexture != null) backgroundTerrainTexture.dispose();
+        if (backgroundClassroomTexture != null) backgroundClassroomTexture.dispose();
 
         if (characterAlizeeTexture != null) characterAlizeeTexture.dispose();
         if (characterJeremieTexture != null) characterJeremieTexture.dispose();
@@ -171,6 +202,7 @@ public class GameAssets {
         if (notebookTexture != null) notebookTexture.dispose();
         if (testTexture != null) testTexture.dispose();
         if (giantPenTexture != null) giantPenTexture.dispose();
+
         if (heartFullTexture != null) heartFullTexture.dispose();
         if (heartEmptyTexture != null) heartEmptyTexture.dispose();
     }

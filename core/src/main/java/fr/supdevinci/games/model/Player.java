@@ -1,4 +1,4 @@
-package fr.supdevinci.games;
+package fr.supdevinci.games.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

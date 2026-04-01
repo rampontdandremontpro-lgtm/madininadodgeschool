@@ -1,4 +1,4 @@
-package fr.supdevinci.games;
+package fr.supdevinci.games.state;
 
 public enum GameState {
     START,

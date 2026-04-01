@@ -1,4 +1,4 @@
-package fr.supdevinci.games;
+package fr.supdevinci.games.config;
 
 import com.badlogic.gdx.graphics.Color;
 

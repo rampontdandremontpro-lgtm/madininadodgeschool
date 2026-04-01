@@ -1,4 +1,4 @@
-package fr.supdevinci.games;
+package fr.supdevinci.games.render;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +7,10 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import fr.supdevinci.games.assets.GameAssets;
+import fr.supdevinci.games.config.GameConfig;
+import fr.supdevinci.games.core.GameSession;
 
 public class StartMenuRenderer {
 
@@ -144,15 +148,15 @@ public class StartMenuRenderer {
         );
 
         if (session.getSelectedCharacter() == GameConfig.CHARACTER_ALIZEE) {
-            drawMenuCharacterLabel("1 = Alizee selectionnee", leftCardX, GameConfig.CARD_WIDTH, 88f, GameConfig.MENU_RED);
-            drawMenuCharacterLabel("2 = Jeremie", rightCardX, GameConfig.CARD_WIDTH, 88f, GameConfig.MENU_RED);
+            drawMenuCharacterLabel("1 = Alizee selectionnee", leftCardX, GameConfig.CARD_WIDTH, 110f, GameConfig.MENU_RED);
+            drawMenuCharacterLabel("2 = Jeremie", rightCardX, GameConfig.CARD_WIDTH, 110f, GameConfig.MENU_RED);
         } else {
-            drawMenuCharacterLabel("1 = Alizee", leftCardX, GameConfig.CARD_WIDTH, 88f, GameConfig.MENU_RED);
-            drawMenuCharacterLabel("2 = Jeremie selectionne", rightCardX, GameConfig.CARD_WIDTH, 88f, GameConfig.MENU_RED);
+            drawMenuCharacterLabel("1 = Alizee", leftCardX, GameConfig.CARD_WIDTH, 110f, GameConfig.MENU_RED);
+            drawMenuCharacterLabel("2 = Jeremie selectionne", rightCardX, GameConfig.CARD_WIDTH, 110f, GameConfig.MENU_RED);
         }
 
-        drawCenteredText(titleFont, "ENTREE = Commencer", menuCenterX, 62f, Color.WHITE);
-        drawCenteredText(smallFont, "Deplace-toi avec Fleches, Q/D ou A/D", menuCenterX, 20f, Color.WHITE);
+        drawCenteredText(titleFont, "ENTREE = Commencer", menuCenterX, 72f, Color.WHITE);
+        drawCenteredText(smallFont, "Deplace-toi avec Fleches, Q/D ou A/D", menuCenterX, 30f, Color.WHITE);
 
         batch.end();
     }
