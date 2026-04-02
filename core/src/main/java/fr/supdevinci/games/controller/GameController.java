@@ -5,6 +5,9 @@ import com.badlogic.gdx.Input;
 
 import fr.supdevinci.games.core.GameSession;
 
+/**
+ * Gère les entrées clavier globales (pause, retour menu).
+ */
 public class GameController {
 
     private final GameSession session;

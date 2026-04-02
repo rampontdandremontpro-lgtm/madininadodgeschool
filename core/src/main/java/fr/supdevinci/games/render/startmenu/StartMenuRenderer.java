@@ -3,6 +3,11 @@ package fr.supdevinci.games.render.startmenu;
 import fr.supdevinci.games.assets.GameAssets;
 import fr.supdevinci.games.core.GameSession;
 
+/**
+ * Gère l'affichage du menu principal :
+ * - sélection des personnages
+ * - affichage des cartes
+ */
 public class StartMenuRenderer {
 
     private final StartMenuBackgroundRenderer backgroundRenderer;

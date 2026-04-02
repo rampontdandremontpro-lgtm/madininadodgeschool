@@ -3,6 +3,10 @@ package fr.supdevinci.games.core;
 import fr.supdevinci.games.config.GameConfig;
 import fr.supdevinci.games.state.*;
 
+/**
+ * Gère l'état global du jeu (menu, jeu, pause, victoire, game over).
+ * Utilise le pattern State pour gérer les transitions.
+ */
 public class GameSession {
 
     private final GameLogic gameManager;
@@ -124,7 +128,11 @@ public class GameSession {
     public void goToVictory() {
         changeState(GameState.VICTORY);
     }
-
+/**
+ * Change l'état du jeu.
+ *
+ * @param newState Nouvel état du jeu
+ */
     private void changeState(GameState newState) {
         gameState = newState;
         stateTime = 0f;

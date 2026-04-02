@@ -4,6 +4,13 @@ import com.badlogic.gdx.utils.Array;
 import fr.supdevinci.games.model.Homework;
 import fr.supdevinci.games.model.Player;
 
+/**
+ * Gère toute la logique principale du jeu :
+ * - progression dans le temps
+ * - gestion des phases (2nde, 1ère, Terminale)
+ * - spawn des objets
+ * - collisions et vies
+ */
 public class GameManager implements GameLogic {
 
     private static final float HIT_COOLDOWN_MAX = 1f;
@@ -37,7 +44,13 @@ public class GameManager implements GameLogic {
 
         reset();
     }
-
+/**
+ * Réinitialise complètement la partie :
+ * - joueur
+ * - score
+ * - vies
+ * - objets
+ */
     @Override
     public void reset() {
         player.reset(worldWidth / 2f - 25f, 40f);
@@ -50,7 +63,11 @@ public class GameManager implements GameLogic {
         phaseTimeline.reset();
         lifeSystem.reset();
     }
-
+/**
+ * Met à jour l'état du jeu à chaque frame.
+ *
+ * @param delta Temps écoulé depuis la dernière frame (en secondes)
+ */
     @Override
     public void update(float delta) {
         if (isGameOver() || isVictory()) {

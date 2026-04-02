@@ -1,3 +1,21 @@
+/**
+ * Projet : Madinina Dodge School
+ *
+ * Jeu 2D en Java avec LibGDX.
+ * Le joueur doit survivre à des objets qui tombent
+ * à travers différentes phases du lycée :
+ * - 2nde
+ * - 1ère
+ * - Terminale
+ *
+ * Architecture :
+ * - GameManager : logique du jeu
+ * - GameSession : gestion des états
+ * - Renderer : affichage
+ * - Pattern State + Decorator
+ *
+ * Auteur : [Ton nom]
+ */
 package fr.supdevinci.games;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -17,6 +35,10 @@ import fr.supdevinci.games.core.GameLogic;
 import fr.supdevinci.games.core.GameLogic;
 import fr.supdevinci.games.decorator.RevisionGameLogicDecorator;
 
+/**
+ * Point d'entrée du jeu.
+ * Initialise tous les systèmes et gère la boucle principale.
+ */
 public class Main extends ApplicationAdapter {
 
     private OrthographicCamera camera;

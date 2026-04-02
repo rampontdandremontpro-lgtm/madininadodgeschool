@@ -2,6 +2,9 @@ package fr.supdevinci.games.model;
 
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * Représente un objet qui tombe (devoir, stylo, bonus…).
+ */
 public class Homework {
 
     public enum HomeworkType {
@@ -49,6 +52,11 @@ public class Homework {
         }
     }
 
+    /**
+ * Met à jour la position de l'objet (chute).
+ *
+ * @param delta Temps écoulé
+ */
     public void update(float delta) {
         bounds.y -= speed * delta;
         hitbox.y -= speed * delta;

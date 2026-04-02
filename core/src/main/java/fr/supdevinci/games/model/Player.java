@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * Représente le joueur.
+ * Gère les déplacements, la direction et la hitbox.
+ */
 public class Player {
 
     public enum Direction {
@@ -32,6 +36,12 @@ public class Player {
 
         updateHitbox();
     }
+    /**
+    * Met à jour la position du joueur en fonction des entrées clavier.
+    *
+    * @param delta Temps écoulé
+    * @param worldWidth Largeur du monde (limites)
+    */
 
     public void update(float delta, float worldWidth) {
         float moveX = 0f;
